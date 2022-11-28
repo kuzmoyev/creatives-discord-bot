@@ -1,0 +1,36 @@
+{% extends '_base.html' %}
+
+{% block title %}Profile {{ user.discord_id }}{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            color: #c4c4c4;
+            background-color: #1a1a1a
+        }
+
+        #avatar {
+            max-width: 20%;
+            height: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <img id="avatar" class="rounded-circle mx-auto d-block m-5" src="{{ user.avatar_url }}" alt="No avatar">
+    <h1 class="text-center">{{ user.display_name }}</h1>
+    <h2 class="text-center">{{ lives }}</h2>
+    <div class="container">
+        <div class="row justify-content-center">
+            {% for submission in user.submission_set.all %}
+                <div class="col-lg-3 d-flex justify-content-center m-3">
+                    <figure class="figure">
+                        <a href="{{ submission.file_url }}">{{ submission.get_html }}</a>
+                        <figcaption class="figure-caption">{{ submission.challenge.title }}:
+                            +{{ submission.votes_count }}</figcaption>
+                    </figure>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
