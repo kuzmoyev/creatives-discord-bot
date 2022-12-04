@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     command: gunicorn creatives_discord_bot.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - ./static:/app/staticfiles
+      - ./static:/app/static
       - ./images:/app/images
     expose:
       - 8000
@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
     command: ./manage.py run_bot
     volumes:
-      - ./static:/app/staticfiles
+      - ./static:/app/static
       - ./images:/app/images
     depends_on:
       - db
