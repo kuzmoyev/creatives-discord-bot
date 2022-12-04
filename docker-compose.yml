@@ -14,6 +14,15 @@ services:
       - ./.env
     depends_on:
       - db
+  bot:
+    build:
+      context: .
+    command: ./manage.py run_bot
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+      - images_volume:/home/app/web/images
+    env_file:
+      - ./.env
   db:
     image: postgres:13.0-alpine
     volumes:
