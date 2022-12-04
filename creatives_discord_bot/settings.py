@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-bzb8zpm#isiv+1$8b&uv*av0_7g))ppo+j=)em)+45cftc0pns'
+SECRET_KEY = getenv('SECRET_KEY')
 
 # Discord
 DISCORD_TOKEN = getenv('DISCORD_TOKEN')
@@ -80,12 +80,12 @@ WSGI_APPLICATION = 'creatives_discord_bot.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": getenv("SQL_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": getenv("SQL_DATABASE", BASE_DIR / "db.sqlite3"),
-        "USER": getenv("SQL_USER", "user"),
-        "PASSWORD": getenv("SQL_PASSWORD", "password"),
-        "HOST": getenv("SQL_HOST", "localhost"),
-        "PORT": getenv("SQL_PORT", "5432"),
+        "ENGINE": getenv("DATABASE_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": getenv("POSTGRES_DB", BASE_DIR / "db.sqlite3"),
+        "USER": getenv("POSTGRES_USER", "user"),
+        "PASSWORD": getenv("POSTGRES_PASSWORD", "password"),
+        "HOST": getenv("POSTGRES_HOST", "localhost"),
+        "PORT": getenv("POSTGRES_PORT", "5432"),
     }
 }
 
