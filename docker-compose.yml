@@ -4,6 +4,7 @@ services:
   web:
     build:
       context: .
+    restart: unless-stopped
     command: gunicorn creatives_discord_bot.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/home/app/web/staticfiles
@@ -17,12 +18,15 @@ services:
   bot:
     build:
       context: .
+    restart: unless-stopped
     command: ./manage.py run_bot
     volumes:
       - static_volume:/home/app/web/staticfiles
       - images_volume:/home/app/web/images
     env_file:
       - ./.env
+    depends_on:
+      - db
   db:
     image: postgres:13.0-alpine
     volumes:
