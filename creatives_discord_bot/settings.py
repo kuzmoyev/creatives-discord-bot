@@ -26,7 +26,7 @@ DISCORD_SUBMISSION_URL = urljoin(DISCORD_GUILD_URL, str(SUBMISSIONS_CHANNEL) + '
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv('DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = getenv('DJANGO_ALLOWED_HOSTS').split()
 
 # Application definition
 
