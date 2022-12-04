@@ -27,6 +27,7 @@ DISCORD_SUBMISSION_URL = urljoin(DISCORD_GUILD_URL, str(SUBMISSIONS_CHANNEL) + '
 DEBUG = getenv('DEBUG', False).lower() == 'true'
 
 ALLOWED_HOSTS = getenv('DJANGO_ALLOWED_HOSTS').split()
+CSRF_TRUSTED_ORIGINS = getenv('CSRF_TRUSTED_ORIGINS').split()
 
 # Application definition
 
