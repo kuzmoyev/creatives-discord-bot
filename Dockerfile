@@ -1,7 +1,6 @@
 FROM python:3.10
 
-ENV HOME=/home/app
-ENV APP_HOME=/home/app/web
+ENV APP_HOME=/app
 RUN mkdir $APP_HOME
 RUN mkdir $APP_HOME/staticfiles
 RUN mkdir $APP_HOME/images
