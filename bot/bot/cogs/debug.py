@@ -1,9 +1,11 @@
 import sys
 import traceback
 
+import discord
+from discord import app_commands
 from discord.ext import commands
 
-from creatives_discord_bot.settings import BOT_ALERTS_CHANNEL, DEBUG
+from creatives_discord_bot.settings import BOT_ALERTS_CHANNEL, DEBUG, TEST_CHANNEL, ADMIN_DISCORD_ID
 
 
 class DebugDev(commands.Cog):
@@ -50,6 +52,11 @@ class DebugProd(commands.Cog):
             f'Error while processing `{ctx.invoked_with}`\n'
             f'```{"".join(traceback.format_tb(error.__traceback__))}```'
         )
+
+    @app_commands.command(description='Test alert system')
+    @commands.is_owner()
+    async def test_alert(self, interaction: discord.Interaction):
+        raise Exception('Testing alert system')
 
 
 async def setup(bot):
