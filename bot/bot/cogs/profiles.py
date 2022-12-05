@@ -52,7 +52,7 @@ class Profiles(commands.Cog):
                                                     f'You have {user.lives} lives.', ephemeral=True)
         else:
             await interaction.response.send_message(f'Hello {user.display_name}. '
-                                                    f'I know you already. '
+                                                    f'No worries. I know you already. '
                                                     f'You have {user.lives} lives.', ephemeral=True)
 
 
