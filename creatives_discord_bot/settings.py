@@ -17,6 +17,7 @@ GUILD_ID = int(getenv('GUILD_ID'))
 BOT_ALERTS_CHANNEL = int(getenv('BOT_ALERTS_CHANNEL'))
 GENERAL_CHANNEL = int(getenv('GENERAL_CHANNEL'))
 SUBMISSIONS_CHANNEL = int(getenv('SUBMISSIONS_CHANNEL'))
+TEST_CHANNEL = int(getenv('TEST_CHANNEL', 0))
 
 DISCORD_URL = 'https://discord.com'
 DISCORD_CHANNELS_URL = urljoin(DISCORD_URL, 'channels/')
