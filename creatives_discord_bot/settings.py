@@ -19,6 +19,8 @@ GENERAL_CHANNEL = int(getenv('GENERAL_CHANNEL'))
 SUBMISSIONS_CHANNEL = int(getenv('SUBMISSIONS_CHANNEL'))
 TEST_CHANNEL = int(getenv('TEST_CHANNEL', 0))
 
+BASE_URL = getenv('BASE_URL')
+
 DISCORD_URL = 'https://discord.com'
 DISCORD_CHANNELS_URL = urljoin(DISCORD_URL, 'channels/')
 DISCORD_GUILD_URL = urljoin(DISCORD_CHANNELS_URL, str(GUILD_ID) + '/')

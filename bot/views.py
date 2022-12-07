@@ -11,5 +11,5 @@ class UserProfileView(TemplateView):
         user = get_object_or_404(User, discord_id=user_id)
         return {
             'user': user,
-            'lives': '♥️' * user.lives + '♡' * (3 - user.lives)
+            'lives': user.get_lives_string()
         }

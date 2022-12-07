@@ -24,10 +24,12 @@ class QuerySetWithAsync(models.query.QuerySet):
     async def create_async(self, *args, **kwargs):
         return await sync_to_async(super().create)(*args, **kwargs)
 
+    async def count_async(self, *args, **kwargs):
+        return await sync_to_async(super().count)(*args, **kwargs)
+
 
 class ManagerWithAsync(models.Manager.from_queryset(QuerySetWithAsync)):
-    async def save_async(self, *args, **kwargs):
-        return await sync_to_async(super().create)(*args, **kwargs)
+    pass
 
 
 class AsyncModel(models.Model):

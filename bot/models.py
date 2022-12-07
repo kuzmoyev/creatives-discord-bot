@@ -16,6 +16,9 @@ class User(AsyncModel):
     def mention(self) -> str:
         return f'<@{self.discord_id}>'
 
+    def get_lives_string(self):
+        return '♥️' * self.lives + '♡' * (3 - self.lives)
+
     def __str__(self):
         return f'{self.display_name} ({self.discord_id})'
 
