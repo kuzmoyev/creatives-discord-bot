@@ -19,13 +19,13 @@ class Profiles(commands.Cog):
             description=f'Check out your profile on [creatives-discord.space]({profile_url})'
         )
         embed.add_field(name='Lives', value=user.get_lives_string(), inline=True)
-        embed.add_field(name='Submissions ', value=f'{await user.submission_set.count_async()}', inline=True)
+        embed.add_field(name='Submissions ', value=f'{await user.submission_set.acount()}', inline=True)
         embed.set_image(url=user.avatar_url)
         return embed
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
-        user, created = await User.objects.get_or_create_async(
+        user, created = await User.objects.aget_or_create(
             discord_id=member.id,
             defaults={
                 'display_name': member.display_name,
@@ -40,7 +40,7 @@ class Profiles(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_update(self, old_member: discord.Member, member: discord.Member):
-        await User.objects.update_or_create_async(
+        await User.objects.aupdate_or_create(
             discord_id=member.id,
             defaults={
                 'display_name': member.display_name,
@@ -51,7 +51,7 @@ class Profiles(commands.Cog):
     @app_commands.command(description='Register yourself (in case bot does not know about you)')
     async def register_me(self, interaction: discord.Interaction):
         member = interaction.user
-        user, created = await User.objects.get_or_create_async(
+        user, created = await User.objects.aget_or_create(
             discord_id=member.id,
             defaults={
                 'display_name': member.display_name,
@@ -59,11 +59,11 @@ class Profiles(commands.Cog):
             }
         )
         if created:
-            await interaction.response.send_message(f'Hello {user.display_name}. ',
+            await interaction.response.send_message(f'Hello {user.mention}. ',
                                                     ephemeral=True,
                                                     embed=await self.get_embed_with_profile(user))
         else:
-            await interaction.response.send_message(f'Hello {user.display_name}. '
+            await interaction.response.send_message(f'Hello {user.mention}. '
                                                     f'No worries. I know you already. ',
                                                     ephemeral=True,
                                                     embed=await self.get_embed_with_profile(user))

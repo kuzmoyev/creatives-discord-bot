@@ -1,4 +1,6 @@
+from asgiref.sync import sync_to_async
 from django.db import models
+from django.utils import timezone
 from django.utils.html import format_html
 
 from bot.async_utils import AsyncModel
@@ -12,11 +14,14 @@ class User(AsyncModel):
     registered = models.DateField(auto_now=True)
     lives = models.IntegerField(default=3)
 
+    def get_score(self) -> int:
+        return sum(s.get_score() for s in self.submission_set.all())
+
     @property
     def mention(self) -> str:
         return f'<@{self.discord_id}>'
 
-    def get_lives_string(self):
+    def get_lives_string(self) -> str:
         return '♥️' * self.lives + '♡' * (3 - self.lives)
 
     def __str__(self):
@@ -31,6 +36,21 @@ class Challenge(AsyncModel):
     description = models.CharField(max_length=256)
     start = models.DateTimeField()
     deadline = models.DateTimeField()
+
+    class NoCurrentChallenge(Exception):
+        pass
+
+    @staticmethod
+    def get_current() -> 'Challenge':
+        now = timezone.now()
+        try:
+            return Challenge.objects.get(start__lte=now, deadline__gt=now)
+        except Challenge.DoesNotExist:
+            raise Challenge.NoCurrentChallenge()
+
+    @staticmethod
+    async def aget_current() -> 'Challenge':
+        return await sync_to_async(Challenge.get_current)()
 
     def __str__(self):
         return f'{self.title} ({self.deadline:%d %b %H:%M})'
@@ -58,6 +78,9 @@ class Submission(AsyncModel):
     file_url = models.URLField()
     media_type = models.CharField(max_length=128)
     submitted_time = models.DateTimeField(auto_now=True)
+
+    INITIAL_POINTS = 50
+    VOTE_POINTS = 10
 
     def get_html(self):
         if self.media_type.startswith('image'):
@@ -90,6 +113,13 @@ class Submission(AsyncModel):
 
     def votes_count(self):
         return self.vote_set.count()
+
+    def get_score(self):
+        votes = self.votes_count()
+        return self.INITIAL_POINTS + votes * self.VOTE_POINTS
+
+    async def aget_score(self):
+        return await sync_to_async(self.get_score)()
 
     def __str__(self):
         return f'Submission by {self.author} for {self.challenge.title}'
