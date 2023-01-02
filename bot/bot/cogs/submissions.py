@@ -20,8 +20,11 @@ class ConfirmationModal(ui.Modal, title='Delete submission'):
     async def on_submit(self, interaction: discord.Interaction):
         if self.answer.value.lower() == 'yes':
 
-            msg = await self.submissions_channel.fetch_message(self.submission.message_id)
-            await msg.delete()
+            try:
+                msg = await self.submissions_channel.fetch_message(self.submission.message_id)
+                await msg.delete()
+            except discord.errors.NotFound:
+                pass
 
             await self.submission.adelete()
             await interaction.response.send_message(
@@ -115,6 +118,7 @@ class Submissions(commands.Cog):
 
         emoji = '\N{THUMBS UP SIGN}'
         await message.add_reaction(emoji)
+        await message.create_thread(name='What do you think about it?')
 
     @app_commands.command(description='Edit your submission for the current challenge and/or its description')
     async def edit_submission(
