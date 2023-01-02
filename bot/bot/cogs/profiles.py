@@ -34,7 +34,7 @@ class Profiles(commands.Cog):
         )
 
         await self.bot.get_channel(GENERAL_CHANNEL).send(
-            f'Hello {user.mention}. Wellcome!',
+            f'Hello {user.mention}. Welcome!',
             embed=await self.get_embed_with_profile(user)
         )
 
