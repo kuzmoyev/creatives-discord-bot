@@ -1,0 +1,43 @@
+{% extends '_base.html' %}
+
+{% block title %}Challenge {{ challenge.title }}{% endblock %}
+
+{% block style %}
+    <style>
+        body {
+            color: #c4c4c4;
+            background-color: #1a1a1a
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% if error %}
+        <div class="container">
+            <div class="row d-flex m-3">
+                <h1 class="col-6 text-right"><span>“The two most powerful warriors are patience and time.”</span></h1>
+            </div>
+            <div class="row d-flex m-3">
+                <h2 class="col-6 text-right"><span>- Leo Tolstoy</span></h2>
+            </div>
+        </div>
+    {% else %}
+
+        <h1 class="text-center">{{ challenge.title }}</h1>
+        <h2 class="text-center">{{ challenge.description }}</h2>
+
+
+        <div class="container">
+            <h2 class="text-center" style="padding-top: 50px">Inspirations</h2>
+            <div class="row justify-content-center">
+                {% for image in challenge.inspirationimage_set.all %}
+                    <div class="col-lg-3 d-flex justify-content-center m-3">
+                        <figure class="figure">
+                            <a href="{{ image.image.url }}">{{ image.image.url }}</a>
+                        </figure>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
